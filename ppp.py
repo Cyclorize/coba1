@@ -107,36 +107,14 @@ st.markdown("""
 Aplikasi ini menghitung sifat fisik dari nanomaterial berdasarkan panjang gelombang larutan, ukuran nanopartikel, dan material yang dipilih.
 """)
 
-# Menyimpan status menggunakan session state
-if 'show_result' not in st.session_state:
-    st.session_state.show_result = False
+# Input dari pengguna
+material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
+panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
+ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
 
-# Menu Pilihan untuk memilih Halaman
-page = st.selectbox("Pilih Halaman", ["Input Data", "Hasil"])
-
-if page == "Input Data":
-    # Input dari pengguna
-    material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
-    panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
-    ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
-
-    # Tombol untuk menghitung hasil
-    if st.button('Lihat Hasil'):
-        if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
-            st.session_state.material = material
-            st.session_state.panjang_gelombang = panjang_gelombang
-            st.session_state.ukuran_nanopartikel = ukuran_nanopartikel
-            st.session_state.show_result = True
-            # Pindah ke halaman Hasil setelah input
-            st.session_state.page = "Hasil"
-            st.experimental_rerun()
-
-elif page == "Hasil":
-    if 'show_result' in st.session_state and st.session_state.show_result:
-        material = st.session_state.material
-        panjang_gelombang = st.session_state.panjang_gelombang
-        ukuran_nanopartikel = st.session_state.ukuran_nanopartikel
-
+# Tombol untuk menghitung hasil
+if st.button('Lihat Hasil'):
+    if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
         # Menghitung warna larutan berdasarkan panjang gelombang
         warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
 
@@ -174,11 +152,3 @@ elif page == "Hasil":
         # Menampilkan sifat fisik lainnya
         st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
         st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
-
-        # Tombol untuk kembali ke input
-        if st.button('Kembali ke Input'):
-            st.session_state.show_result = False
-            st.session_state.page = "Input Data"
-            st.experimental_rerun()
-    else:
-        st.warning("Tidak ada hasil yang tersedia. Silakan masukkan data terlebih dahulu.")
