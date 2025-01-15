@@ -43,28 +43,17 @@ if ukuran_nanopartikel > 0 and panjang_gelombang > 0:
     st.write(f"Band Gap (eV): {band_gap:.2f}")
     st.write(f"Absorbansi: {absorbansi:.4f}")
     st.write(f"Fenomena Fisik: {fenomena_fisik(ukuran_nanopartikel)}")
-    
-    # Menampilkan grafik hubungan ukuran nanopartikel dengan band gap
-    fig, ax = plt.subplots()
-    ukuran_range = np.linspace(1, 1000, 100)
-    band_gap_values = [hitung_band_gap(u) for u in ukuran_range]
-    ax.plot(ukuran_range, band_gap_values, label="Band Gap vs Ukuran Nanopartikel")
-    ax.set_xlabel("Ukuran Nanopartikel (nm)")
-    ax.set_ylabel("Band Gap (eV)")
-    ax.set_title("Hubungan Ukuran Nanopartikel dengan Band Gap")
-    ax.legend()
-    st.pyplot(fig)
 
-    # Menampilkan grafik absorbansi vs panjang gelombang
-    fig2, ax2 = plt.subplots()
-    panjang_gelombang_range = np.linspace(200, 2000, 100)
-    absorbansi_values = [hitung_absorbansi(pg) for pg in panjang_gelombang_range]
-    ax2.plot(panjang_gelombang_range, absorbansi_values, label="Absorbansi vs Panjang Gelombang", color="red")
-    ax2.set_xlabel("Panjang Gelombang (nm)")
-    ax2.set_ylabel("Absorbansi")
-    ax2.set_title("Hubungan Absorbansi dengan Panjang Gelombang")
-    ax2.legend()
-    st.pyplot(fig2)
+    # Menampilkan informasi lebih lanjut dalam bentuk tabel
+    st.subheader("Informasi Tambahan")
+    st.write("Tabel hubungan ukuran nanopartikel dengan sifat fisiknya:")
+    data = {
+        "Ukuran Nanopartikel (nm)": [ukuran_nanopartikel],
+        "Band Gap (eV)": [band_gap],
+        "Absorbansi": [absorbansi],
+        "Fenomena Fisik": [fenomena_fisik(ukuran_nanopartikel)],
+    }
+    st.write(data)
 
 else:
     st.warning("Masukkan ukuran nanopartikel dan panjang gelombang dengan benar.")
