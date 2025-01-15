@@ -139,7 +139,7 @@ if st.button('Lihat Hasil'):
         st.write(f"**Warna Teramati**: {warna_teramati}")
         
         # Menampilkan warna larutan yang sesuai
-        st.markdown(f'<div style="background-color:{color_code}; padding: 20px; color:white; text-align:center;">{warna_teramati}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="background-color:{color_code}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', unsafe_allow_html=True)
         
         # Ukuran Nanopartikel
         st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
