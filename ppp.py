@@ -66,13 +66,6 @@ def main():
             st.markdown(f"""
             ### 1. Warna Larutan
             Berdasarkan panjang gelombang **{panjang_gelombang} nm**, larutan nanopartikel ini cenderung berwarna **{warna_larutan}**.
-            - Panjang gelombang dalam kisaran 380-450 nm menghasilkan warna **Ungu**.
-            - Panjang gelombang 450-495 nm menghasilkan warna **Biru**.
-            - Panjang gelombang 495-570 nm menghasilkan warna **Hijau**.
-            - Panjang gelombang 570-590 nm menghasilkan warna **Kuning**.
-            - Panjang gelombang 590-620 nm menghasilkan warna **Jingga**.
-            - Panjang gelombang 620-750 nm menghasilkan warna **Merah**.
-            - Panjang gelombang di luar kisaran tersebut, seperti UV atau IR, menghasilkan warna yang tidak tampak oleh mata manusia.
 
             ### 2. Sifat Katalitik
             Berdasarkan ukuran nanopartikel **{ukuran_nanopartikel} nm**, sifat katalitik nanopartikel ini dijelaskan sebagai berikut:
