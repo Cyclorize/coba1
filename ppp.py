@@ -40,13 +40,53 @@ def luas_permukaan(ukuran_nanopartikel):
     luas = 6 / ukuran_nanopartikel
     return f"{luas:.2f} nm²"
 
+# Fungsi untuk menampilkan sifat fisik berdasarkan material yang dipilih
+def sifat_material(material):
+    # Sifat fisik dari beberapa material logam
+    material_sifat = {
+        "Titanium": {
+            "Konduktivitas": "Rendah (isolator)",
+            "Warna": "Perak keabuan",
+            "Sifat Katalitik": "Bagus dalam reaksi oksidasi",
+            "Densitas": "4.5 g/cm³"
+        },
+        "Silver": {
+            "Konduktivitas": "Sangat tinggi (konduktor)",
+            "Warna": "Perak",
+            "Sifat Katalitik": "Sangat baik untuk reaksi oksidasi",
+            "Densitas": "10.49 g/cm³"
+        },
+        "Gold": {
+            "Konduktivitas": "Tinggi (konduktor)",
+            "Warna": "Emas",
+            "Sifat Katalitik": "Bagus untuk reaksi reduksi",
+            "Densitas": "19.32 g/cm³"
+        },
+        "Copper": {
+            "Konduktivitas": "Tinggi (konduktor)",
+            "Warna": "Coklat kemerahan",
+            "Sifat Katalitik": "Sedang",
+            "Densitas": "8.96 g/cm³"
+        },
+        "Iron": {
+            "Konduktivitas": "Sedang",
+            "Warna": "Abu-abu kebiruan",
+            "Sifat Katalitik": "Sedang",
+            "Densitas": "7.87 g/cm³"
+        }
+    }
+    
+    # Mengembalikan sifat material yang dipilih, jika material tidak ada di daftar, tampilkan pesan error.
+    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui"})
+
 # Tampilan aplikasi Streamlit
 st.title("Kalkulator Sifat Fisik Nanomaterial")
 st.markdown("""
-Aplikasi ini menghitung sifat fisik dari nanomaterial berdasarkan panjang gelombang larutan dan ukuran nanopartikel yang dimasukkan.
+Aplikasi ini menghitung sifat fisik dari nanomaterial berdasarkan panjang gelombang larutan, ukuran nanopartikel, dan material yang dipilih.
 """)
 
 # Input dari pengguna
+material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
 panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
 ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
 
@@ -64,12 +104,23 @@ if st.button('Lihat Hasil'):
 
         # Menampilkan hasil dalam bentuk tabel
         st.subheader("Hasil Sifat Fisik Nanomaterial:")
+        
+        # Material
+        st.write(f"**Material yang dipilih**: {material}")
+        
+        # Sifat material
+        material_sifat = sifat_material(material)
+        for key, value in material_sifat.items():
+            st.write(f"**{key}**: {value}")
+
+        # Warna Larutan
         st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
         st.write(f"**Warna Larutan**: {warna_larutan}")
         
         # Menampilkan warna larutan yang sesuai
         st.markdown(f'<div style="background-color:{color_code}; padding: 20px; color:white; text-align:center;">{warna_larutan}</div>', unsafe_allow_html=True)
         
+        # Ukuran Nanopartikel
         st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
         
         # Menampilkan sifat fisik lainnya
