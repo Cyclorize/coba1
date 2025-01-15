@@ -3,7 +3,6 @@ import pandas as pd
 
 # Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
-    # Data spektrum panjang gelombang dan warna yang diserap/teramati
     if 400 <= panjang_gelombang < 430:
         warna_diserap = "Violet"
         warna_teramati = "Kuning terang"
@@ -57,13 +56,11 @@ def sifat_magnetis(ukuran_nanopartikel):
 
 # Fungsi untuk menghitung luas permukaan berdasarkan ukuran nanopartikel (nm)
 def luas_permukaan(ukuran_nanopartikel):
-    # Menggunakan rumus luas permukaan untuk bola (A = 6 / D)
     luas = 6 / ukuran_nanopartikel
     return f"{luas:.2f} nm²"
 
 # Fungsi untuk menampilkan sifat fisik berdasarkan material yang dipilih
 def sifat_material(material):
-    # Sifat fisik dari beberapa material logam
     material_sifat = {
         "Titanium": {
             "Konduktivitas": "Rendah (isolator)",
@@ -102,8 +99,7 @@ def sifat_material(material):
         }
     }
     
-    # Mengembalikan sifat material yang dipilih, jika material tidak ada di daftar, tampilkan pesan error.
-    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "color_code": "#D3D3D3"})  # Warna default jika tidak ada material yang cocok
+    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "color_code": "#D3D3D3"})
 
 # Tampilan aplikasi Streamlit
 st.title("Kalkulator Sifat Fisik Nanomaterial")
@@ -111,14 +107,30 @@ st.markdown("""
 Aplikasi ini menghitung sifat fisik dari nanomaterial berdasarkan panjang gelombang larutan, ukuran nanopartikel, dan material yang dipilih.
 """)
 
-# Input dari pengguna
-material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
-panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
-ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
+# Menu Pilihan untuk memilih Halaman
+page = st.selectbox("Pilih Halaman", ["Input Data", "Hasil"])
 
-# Tombol untuk menghitung hasil
-if st.button('Lihat Hasil'):
-    if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
+if page == "Input Data":
+    # Input dari pengguna
+    material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
+    panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
+    ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
+
+    # Tombol untuk menghitung hasil
+    if st.button('Lihat Hasil'):
+        if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
+            st.session_state.material = material
+            st.session_state.panjang_gelombang = panjang_gelombang
+            st.session_state.ukuran_nanopartikel = ukuran_nanopartikel
+            st.session_state.show_result = True
+            st.experimental_rerun()
+
+elif page == "Hasil":
+    if 'show_result' in st.session_state and st.session_state.show_result:
+        material = st.session_state.material
+        panjang_gelombang = st.session_state.panjang_gelombang
+        ukuran_nanopartikel = st.session_state.ukuran_nanopartikel
+
         # Menghitung warna larutan berdasarkan panjang gelombang
         warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
 
@@ -156,6 +168,10 @@ if st.button('Lihat Hasil'):
         # Menampilkan sifat fisik lainnya
         st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
         st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
-        
+
+        # Tombol untuk kembali ke input
+        if st.button('Kembali ke Input'):
+            st.session_state.show_result = False
+            st.experimental_rerun()
     else:
-        st.warning("Masukkan panjang gelombang dan ukuran nanopartikel dengan benar.")
+        st.warning("Tidak ada hasil yang tersedia. Silakan masukkan data terlebih dahulu.")
