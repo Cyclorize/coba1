@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Fungsi untuk menghitung energi band gap dari ukuran nanopartikel
 def hitung_band_gap(ukuran_nanopartikel):
