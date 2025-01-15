@@ -12,7 +12,7 @@ def hitung_warna(panjang_gelombang):
         return "Hijau"
     elif 570 <= panjang_gelombang < 590:
         return "Kuning"
-    elif 590 <= panjang_gombang < 620:
+    elif 590 <= panjang_gelombang < 620:  # Perbaiki nama variabel di sini
         return "Jingga"
     elif 620 <= panjang_gelombang < 750:
         return "Merah"
