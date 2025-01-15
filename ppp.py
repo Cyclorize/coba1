@@ -70,45 +70,40 @@ def sifat_material(material):
             "Warna": "Perak keabuan",
             "Sifat Katalitik": "Bagus dalam reaksi oksidasi",
             "Densitas": "4.5 g/cm³",
-            "color_code": "#C0C0C0",  # Perak
-            "gambar": "images/titanium.jpg"  # Pastikan gambar ada di folder 'images'
+            "color_code": "#C0C0C0"  # Perak
         },
         "Silver": {
             "Konduktivitas": "Sangat tinggi (konduktor)",
             "Warna": "Perak",
             "Sifat Katalitik": "Sangat baik untuk reaksi oksidasi",
             "Densitas": "10.49 g/cm³",
-            "color_code": "#C0C0C0",  # Perak
-            "gambar": "images/silver.jpg"  # Pastikan gambar ada di folder 'images'
+            "color_code": "#C0C0C0"  # Perak
         },
         "Gold": {
             "Konduktivitas": "Tinggi (konduktor)",
             "Warna": "Emas",
             "Sifat Katalitik": "Bagus untuk reaksi reduksi",
             "Densitas": "19.32 g/cm³",
-            "color_code": "#FFD700",  # Emas
-            "gambar": "images/gold.jpg"  # Pastikan gambar ada di folder 'images'
+            "color_code": "#FFD700"  # Emas
         },
         "Copper": {
             "Konduktivitas": "Tinggi (konduktor)",
             "Warna": "Coklat kemerahan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "8.96 g/cm³",
-            "color_code": "#B87333",  # Coklat kemerahan
-            "gambar": "images/copper.jpg"  # Pastikan gambar ada di folder 'images'
+            "color_code": "#B87333"  # Coklat kemerahan
         },
         "Iron": {
             "Konduktivitas": "Sedang",
             "Warna": "Abu-abu kebiruan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "7.87 g/cm³",
-            "color_code": "#B0C4DE",  # Abu-abu kebiruan
-            "gambar": "images/iron.jpg"  # Pastikan gambar ada di folder 'images'
+            "color_code": "#B0C4DE"  # Abu-abu kebiruan
         }
     }
     
     # Mengembalikan sifat material yang dipilih, jika material tidak ada di daftar, tampilkan pesan error.
-    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "color_code": "#D3D3D3", "gambar": ""})  # Warna default jika tidak ada material yang cocok
+    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "color_code": "#D3D3D3"})  # Warna default jika tidak ada material yang cocok
 
 # Tampilan aplikasi Streamlit
 st.title("Kalkulator Sifat Fisik Nanomaterial")
@@ -139,11 +134,7 @@ if st.button('Lihat Hasil'):
         # Menampilkan hasil dalam bentuk tabel
         st.subheader("Hasil Sifat Fisik Nanomaterial:")
         
-        # Tampilkan gambar material
-        if material_sifat['gambar']:
-            st.image(material_sifat['gambar'], caption=material, use_column_width=True)
-
-        # Menampilkan tabel sifat material
+        # Tampilkan tabel sifat material
         data = {
             "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas"],
             "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"]]
