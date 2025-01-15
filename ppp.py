@@ -1,21 +1,29 @@
 import streamlit as st
 
-# Fungsi untuk menentukan warna larutan berdasarkan panjang gelombang (nm)
+# Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
     if 380 <= panjang_gelombang < 450:
-        return "Ungu"
+        warna = "Ungu"
+        color_code = "#8B00FF"  # Kode warna ungu
     elif 450 <= panjang_gelombang < 495:
-        return "Biru"
+        warna = "Biru"
+        color_code = "#0000FF"  # Kode warna biru
     elif 495 <= panjang_gelombang < 570:
-        return "Hijau"
+        warna = "Hijau"
+        color_code = "#00FF00"  # Kode warna hijau
     elif 570 <= panjang_gelombang < 590:
-        return "Kuning"
+        warna = "Kuning"
+        color_code = "#FFFF00"  # Kode warna kuning
     elif 590 <= panjang_gelombang < 620:
-        return "Jingga"
+        warna = "Jingga"
+        color_code = "#FFA500"  # Kode warna jingga
     elif 620 <= panjang_gelombang < 750:
-        return "Merah"
+        warna = "Merah"
+        color_code = "#FF0000"  # Kode warna merah
     else:
-        return "Tidak Terlihat (UV/IR)"
+        warna = "Tidak Terlihat (UV/IR)"
+        color_code = "#D3D3D3"  # Kode warna abu-abu untuk UV/IR
+    return warna, color_code
 
 # Fungsi untuk menentukan sifat magnetis berdasarkan ukuran nanopartikel (nm)
 def sifat_magnetis(ukuran_nanopartikel):
@@ -46,7 +54,7 @@ ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_
 if st.button('Lihat Hasil'):
     if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
         # Menghitung warna larutan berdasarkan panjang gelombang
-        warna_larutan = hitung_warna(panjang_gelombang)
+        warna_larutan, color_code = hitung_warna(panjang_gelombang)
 
         # Menentukan sifat magnetis berdasarkan ukuran nanopartikel
         sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
@@ -58,6 +66,10 @@ if st.button('Lihat Hasil'):
         st.subheader("Hasil Sifat Fisik Nanomaterial:")
         st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
         st.write(f"**Warna Larutan**: {warna_larutan}")
+        
+        # Menampilkan warna larutan yang sesuai
+        st.markdown(f'<div style="background-color:{color_code}; padding: 20px; color:white; text-align:center;">{warna_larutan}</div>', unsafe_allow_html=True)
+        
         st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
         
         # Menampilkan sifat fisik lainnya
