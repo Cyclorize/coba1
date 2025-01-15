@@ -1,7 +1,6 @@
 import streamlit as st
-import numpy as np
 
-# Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
+# Fungsi untuk menentukan warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
     if 380 <= panjang_gelombang < 450:
         return "Ungu"
@@ -18,72 +17,52 @@ def hitung_warna(panjang_gelombang):
     else:
         return "Tidak Terlihat (UV/IR)"
 
-# Fungsi untuk menentukan sifat katalitik berdasarkan ukuran nanopartikel (nm)
-def sifat_katalitik(ukuran_nanopartikel):
-    if ukuran_nanopartikel < 5:
-        return "Nanopartikel ini memiliki sifat katalitik yang sangat tinggi karena efek kuantum dan luas permukaan yang besar."
-    elif ukuran_nanopartikel < 20:
-        return "Nanopartikel ini memiliki sifat katalitik yang baik, namun efek kuantum mulai berkurang."
+# Fungsi untuk menentukan sifat magnetis berdasarkan ukuran nanopartikel (nm)
+def sifat_magnetis(ukuran_nanopartikel):
+    if ukuran_nanopartikel < 10:
+        return "Nanopartikel ini sangat magnetis (Efek Superparamagnetik)."
+    elif 10 <= ukuran_nanopartikel < 50:
+        return "Nanopartikel ini memiliki sifat magnetis sedang."
     else:
-        return "Nanopartikel ini lebih mirip dengan material bulk, dengan sifat katalitik yang moderat."
+        return "Nanopartikel ini hampir tidak memiliki sifat magnetis."
 
-# Tampilan Streamlit
-st.title("Nanopedia - Sifat Fisik Nanomaterial")
+# Fungsi untuk menghitung luas permukaan berdasarkan ukuran nanopartikel (nm)
+def luas_permukaan(ukuran_nanopartikel):
+    # Menggunakan rumus luas permukaan untuk bola (A = 6 / D)
+    luas = 6 / ukuran_nanopartikel
+    return f"{luas:.2f} nm²"
+
+# Tampilan aplikasi Streamlit
+st.title("Kalkulator Sifat Fisik Nanomaterial")
 st.markdown("""
-Aplikasi ini memungkinkan Anda untuk menghitung sifat fisik dari nanomaterial, seperti warna larutan berdasarkan panjang gelombang dan sifat katalitik berdasarkan ukuran nanopartikel.
+Aplikasi ini menghitung sifat fisik dari nanomaterial berdasarkan panjang gelombang larutan dan ukuran nanopartikel yang dimasukkan.
 """)
 
-# Fungsi utama aplikasi
-def main():
-    # Input dari pengguna
-    panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
-    ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
+# Input dari pengguna
+panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
+ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
 
-    # Tombol untuk menampilkan hasil
-    if st.button('Lihat Hasil'):
-        if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
-            # Menghitung warna larutan berdasarkan panjang gelombang
-            warna_larutan = hitung_warna(panjang_gelombang)
+# Tombol untuk menghitung hasil
+if st.button('Lihat Hasil'):
+    if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
+        # Menghitung warna larutan berdasarkan panjang gelombang
+        warna_larutan = hitung_warna(panjang_gelombang)
 
-            # Menentukan sifat katalitik berdasarkan ukuran nanopartikel
-            sifat_katalitik_result = sifat_katalitik(ukuran_nanopartikel)
+        # Menentukan sifat magnetis berdasarkan ukuran nanopartikel
+        sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
 
-            # Menyembunyikan input setelah hasil dihitung
-            st.session_state.show_input = False
+        # Menghitung luas permukaan berdasarkan ukuran nanopartikel
+        luas_permukaan_result = luas_permukaan(ukuran_nanopartikel)
 
-            # Menampilkan hasil dalam bentuk tabel
-            st.subheader("Hasil Kalkulasi:")
-            hasil_data = {
-                "Panjang Gelombang (nm)": [panjang_gelombang],
-                "Warna Larutan": [warna_larutan],
-                "Ukuran Nanopartikel (nm)": [ukuran_nanopartikel],
-                "Sifat Katalitik": [sifat_katalitik_result]
-            }
-            st.table(hasil_data)
-
-            # Penjelasan panjang mengenai hasil perhitungan
-            st.subheader("Penjelasan Hasil:")
-            st.markdown(f"""
-            ### 1. Warna Larutan
-            Berdasarkan panjang gelombang **{panjang_gelombang} nm**, larutan nanopartikel ini cenderung berwarna **{warna_larutan}**.
-
-            ### 2. Sifat Katalitik
-            Berdasarkan ukuran nanopartikel **{ukuran_nanopartikel} nm**, sifat katalitik nanopartikel ini dijelaskan sebagai berikut:
-            - **Nanopartikel dengan ukuran kurang dari 5 nm** memiliki sifat katalitik yang sangat tinggi karena efek kuantum yang kuat dan luas permukaan yang lebih besar, yang meningkatkan reaktivitas kimia.
-            - **Nanopartikel dengan ukuran antara 5-20 nm** masih memiliki sifat katalitik yang baik, tetapi efek kuantum mulai berkurang seiring dengan bertambahnya ukuran partikel.
-            - **Nanopartikel lebih besar dari 20 nm** cenderung memiliki sifat katalitik yang lebih mirip dengan material bulk, karena efek kuantum hampir hilang, dan sifat permukaannya tidak sebesar nanopartikel kecil.
-            """)
-
-            # Tombol kembali untuk input ulang
-            if st.button('Kembali'):
-                st.session_state.show_input = True
-        else:
-            st.warning("Masukkan panjang gelombang dan ukuran nanopartikel dengan benar.")
-
-    # Menampilkan input jika diperlukan
-    if 'show_input' not in st.session_state or st.session_state.show_input:
-        st.warning("Masukkan data untuk mendapatkan hasil!")
-
-# Menjalankan fungsi utama
-if __name__ == "__main__":
-    main()
+        # Menampilkan hasil dalam bentuk tabel
+        st.subheader("Hasil Sifat Fisik Nanomaterial:")
+        st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
+        st.write(f"**Warna Larutan**: {warna_larutan}")
+        st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
+        
+        # Menampilkan sifat fisik lainnya
+        st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
+        st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
+        
+    else:
+        st.warning("Masukkan panjang gelombang dan ukuran nanopartikel dengan benar.")
