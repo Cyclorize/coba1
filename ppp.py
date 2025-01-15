@@ -2,28 +2,48 @@ import streamlit as st
 
 # Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
-    if 380 <= panjang_gelombang < 450:
-        warna = "Ungu"
-        color_code = "#8B00FF"  # Kode warna ungu
-    elif 450 <= panjang_gelombang < 495:
-        warna = "Biru"
+    # Data spektrum panjang gelombang dan warna yang diserap/teramati
+    if 400 <= panjang_gelombang < 430:
+        warna_diserap = "Violet"
+        warna_teramati = "Kuning terang"
+        color_code = "#8A2BE2"  # Kode warna violet
+    elif 430 <= panjang_gelombang < 480:
+        warna_diserap = "Nila"
+        warna_teramati = "Kuning"
+        color_code = "#4B0082"  # Kode warna nila
+    elif 480 <= panjang_gelombang < 500:
+        warna_diserap = "Biru"
+        warna_teramati = "Oranye"
         color_code = "#0000FF"  # Kode warna biru
-    elif 495 <= panjang_gelombang < 570:
-        warna = "Hijau"
-        color_code = "#00FF00"  # Kode warna hijau
-    elif 570 <= panjang_gelombang < 590:
-        warna = "Kuning"
-        color_code = "#FFFF00"  # Kode warna kuning
-    elif 590 <= panjang_gelombang < 620:
-        warna = "Jingga"
-        color_code = "#FFA500"  # Kode warna jingga
-    elif 620 <= panjang_gelombang < 750:
-        warna = "Merah"
+    elif 500 <= panjang_gelombang < 530:
+        warna_diserap = "Biru kehijauan"
+        warna_teramati = "Merah"
+        color_code = "#20B2AA"  # Kode warna biru kehijauan
+    elif 530 <= panjang_gelombang < 560:
+        warna_diserap = "Hijau"
+        warna_teramati = "Ungu"
+        color_code = "#008000"  # Kode warna hijau
+    elif 560 <= panjang_gelombang < 580:
+        warna_diserap = "Kuning terang"
+        warna_teramati = "Violet"
+        color_code = "#FFFF00"  # Kode warna kuning terang
+    elif 580 <= panjang_gelombang < 610:
+        warna_diserap = "Kuning"
+        warna_teramati = "Nila"
+        color_code = "#FFD700"  # Kode warna kuning
+    elif 610 <= panjang_gelombang < 680:
+        warna_diserap = "Oranye"
+        warna_teramati = "Biru"
+        color_code = "#FFA500"  # Kode warna oranye
+    elif 680 <= panjang_gelombang < 800:
+        warna_diserap = "Merah"
+        warna_teramati = "Biru kehijauan"
         color_code = "#FF0000"  # Kode warna merah
     else:
-        warna = "Tidak Terlihat (UV/IR)"
-        color_code = "#D3D3D3"  # Kode warna abu-abu untuk UV/IR
-    return warna, color_code
+        warna_diserap = "Tidak Terlihat"
+        warna_teramati = "Tidak Terlihat"
+        color_code = "#D3D3D3"  # Kode warna abu-abu untuk panjang gelombang di luar rentang tampak
+    return warna_diserap, warna_teramati, color_code
 
 # Fungsi untuk menentukan sifat magnetis berdasarkan ukuran nanopartikel (nm)
 def sifat_magnetis(ukuran_nanopartikel):
@@ -94,7 +114,7 @@ ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_
 if st.button('Lihat Hasil'):
     if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
         # Menghitung warna larutan berdasarkan panjang gelombang
-        warna_larutan, color_code = hitung_warna(panjang_gelombang)
+        warna_diserap, warna_teramati, color_code = hitung_warna(panjang_gelombang)
 
         # Menentukan sifat magnetis berdasarkan ukuran nanopartikel
         sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
@@ -115,10 +135,11 @@ if st.button('Lihat Hasil'):
 
         # Warna Larutan
         st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
-        st.write(f"**Warna Larutan**: {warna_larutan}")
+        st.write(f"**Warna Diserap**: {warna_diserap}")
+        st.write(f"**Warna Teramati**: {warna_teramati}")
         
         # Menampilkan warna larutan yang sesuai
-        st.markdown(f'<div style="background-color:{color_code}; padding: 20px; color:white; text-align:center;">{warna_larutan}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="background-color:{color_code}; padding: 20px; color:white; text-align:center;">{warna_teramati}</div>', unsafe_allow_html=True)
         
         # Ukuran Nanopartikel
         st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
