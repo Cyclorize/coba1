@@ -130,6 +130,7 @@ st.markdown("""
             margin: 20px;
             background-color: #f3f4f6;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: scaleUp 1.5s ease-in-out;
         }
         .button {
             background-color: #4CAF50;
@@ -154,6 +155,10 @@ st.markdown("""
             0% { transform: scale(0); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
+        }
+        @keyframes scaleUp {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 """, unsafe_allow_html=True)
