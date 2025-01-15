@@ -102,10 +102,59 @@ def sifat_material(material):
     return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "color_code": "#D3D3D3"})
 
 # Tampilan aplikasi Streamlit
-st.title("Kalkulator Sifat Fisik Nanomaterial")
+st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
+
+# Tambahkan beberapa CSS untuk memperindah tampilan
 st.markdown("""
-Aplikasi ini menghitung sifat fisik dari nanomaterial berdasarkan panjang gelombang larutan, ukuran nanopartikel, dan material yang dipilih.
-""")
+    <style>
+        .title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            color: #1e3a8a;
+            animation: fadeIn 2s ease-out;
+        }
+        .header {
+            text-align: center;
+            font-size: 20px;
+            color: #4CAF50;
+        }
+        .output-box {
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px;
+            background-color: #f3f4f6;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .animate {
+            animation: bounceIn 1.5s ease-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown('<div class="title">Kalkulator Sifat Fisik Nanomaterial</div>', unsafe_allow_html=True)
+st.markdown('<div class="header">Masukkan data untuk menghitung sifat fisik nanomaterial Anda.</div>', unsafe_allow_html=True)
 
 # Input dari pengguna
 material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
@@ -113,7 +162,7 @@ panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_valu
 ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
 
 # Tombol untuk menghitung hasil
-if st.button('Lihat Hasil'):
+if st.button('Lihat Hasil', key="calculate", help="Klik untuk melihat hasilnya", use_container_width=True):
     if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
         # Menghitung warna larutan berdasarkan panjang gelombang
         warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
@@ -128,6 +177,8 @@ if st.button('Lihat Hasil'):
         material_sifat = sifat_material(material)
 
         # Menampilkan hasil dalam bentuk tabel
+        st.markdown(f'<div class="output-box animate">', unsafe_allow_html=True)
+
         st.subheader("Hasil Sifat Fisik Nanomaterial:")
         
         # Tampilkan tabel sifat material
@@ -152,3 +203,5 @@ if st.button('Lihat Hasil'):
         # Menampilkan sifat fisik lainnya
         st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
         st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
