@@ -107,6 +107,10 @@ st.markdown("""
 Aplikasi ini menghitung sifat fisik dari nanomaterial berdasarkan panjang gelombang larutan, ukuran nanopartikel, dan material yang dipilih.
 """)
 
+# Menyimpan status menggunakan session state
+if 'show_result' not in st.session_state:
+    st.session_state.show_result = False
+
 # Menu Pilihan untuk memilih Halaman
 page = st.selectbox("Pilih Halaman", ["Input Data", "Hasil"])
 
@@ -123,6 +127,8 @@ if page == "Input Data":
             st.session_state.panjang_gelombang = panjang_gelombang
             st.session_state.ukuran_nanopartikel = ukuran_nanopartikel
             st.session_state.show_result = True
+            # Pindah ke halaman Hasil setelah input
+            st.session_state.page = "Hasil"
             st.experimental_rerun()
 
 elif page == "Hasil":
@@ -172,6 +178,7 @@ elif page == "Hasil":
         # Tombol untuk kembali ke input
         if st.button('Kembali ke Input'):
             st.session_state.show_result = False
+            st.session_state.page = "Input Data"
             st.experimental_rerun()
     else:
         st.warning("Tidak ada hasil yang tersedia. Silakan masukkan data terlebih dahulu.")
