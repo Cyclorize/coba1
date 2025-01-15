@@ -67,6 +67,7 @@ def sifat_material(material):
             "Warna": "Perak keabuan",
             "Sifat Katalitik": "Bagus dalam reaksi oksidasi",
             "Densitas": "4.5 g/cm³",
+            "Titik Lebur": "1668°C",
             "color_code": "#C0C0C0"  # Perak
         },
         "Silver": {
@@ -74,6 +75,7 @@ def sifat_material(material):
             "Warna": "Perak",
             "Sifat Katalitik": "Sangat baik untuk reaksi oksidasi",
             "Densitas": "10.49 g/cm³",
+            "Titik Lebur": "962°C",
             "color_code": "#C0C0C0"  # Perak
         },
         "Gold": {
@@ -81,6 +83,7 @@ def sifat_material(material):
             "Warna": "Emas",
             "Sifat Katalitik": "Bagus untuk reaksi reduksi",
             "Densitas": "19.32 g/cm³",
+            "Titik Lebur": "1064°C",
             "color_code": "#FFD700"  # Emas
         },
         "Copper": {
@@ -88,6 +91,7 @@ def sifat_material(material):
             "Warna": "Coklat kemerahan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "8.96 g/cm³",
+            "Titik Lebur": "1085°C",
             "color_code": "#B87333"  # Coklat kemerahan
         },
         "Iron": {
@@ -95,11 +99,12 @@ def sifat_material(material):
             "Warna": "Abu-abu kebiruan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "7.87 g/cm³",
+            "Titik Lebur": "1538°C",
             "color_code": "#B0C4DE"  # Abu-abu kebiruan
         }
     }
     
-    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "color_code": "#D3D3D3"})
+    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "Titik Lebur": "Tidak diketahui", "color_code": "#D3D3D3"})
 
 # Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
@@ -183,8 +188,8 @@ if st.button('Lihat Hasil', key="calculate", help="Klik untuk melihat hasilnya",
         
         # Tampilkan tabel sifat material
         data = {
-            "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas"],
-            "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"]]
+            "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas", "Titik Lebur"],
+            "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"], material_sifat["Titik Lebur"]]
         }
         df = pd.DataFrame(data)
         st.table(df)
