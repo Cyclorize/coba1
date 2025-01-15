@@ -1,59 +1,65 @@
 import streamlit as st
 import numpy as np
 
-# Fungsi untuk menghitung energi band gap dari ukuran nanopartikel
-def hitung_band_gap(ukuran_nanopartikel):
-    # Formula kasar berdasarkan teori kuantum
-    # Band Gap (eV) = C / (Ukuran Nanopartikel)^(1/2)
-    C = 1.0  # Konstanta empiris, misalnya
-    band_gap = C / np.sqrt(ukuran_nanopartikel)
-    return band_gap
-
-# Fungsi untuk menghitung absorbansi dari panjang gelombang
-def hitung_absorbansi(panjang_gelombang):
-    # Formula kasar untuk absorbansi, misalnya untuk nanopartikel logam
-    absorbansi = np.exp(-panjang_gelombang / 500)  # Asumsi panjang gelombang dalam nm
-    return absorbansi
-
-# Fungsi untuk menghitung fenomena terkait ukuran nanopartikel
-def fenomena_fisik(ukuran_nanopartikel):
-    if ukuran_nanopartikel < 10:
-        return "Nanopartikel ini berada dalam ukuran kuantum yang menunjukkan sifat optik yang kuat dan efek kuantum."
-    elif ukuran_nanopartikel < 50:
-        return "Nanopartikel ini menunjukkan efek kuantum tetapi juga beberapa sifat material bulk."
+# Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
+def hitung_warna(panjang_gelombang):
+    # Penentuan warna berdasarkan panjang gelombang (nm)
+    if 380 <= panjang_gelombang < 450:
+        return "Ungu"
+    elif 450 <= panjang_gelombang < 495:
+        return "Biru"
+    elif 495 <= panjang_gelombang < 570:
+        return "Hijau"
+    elif 570 <= panjang_gelombang < 590:
+        return "Kuning"
+    elif 590 <= panjang_gelombang < 620:
+        return "Jingga"
+    elif 620 <= panjang_gelombang < 750:
+        return "Merah"
     else:
-        return "Nanopartikel ini lebih dekat dengan material bulk dengan sedikit efek kuantum."
+        return "Tidak Terlihat (UV/IR)"
+
+# Fungsi untuk menentukan sifat katalitik berdasarkan ukuran nanopartikel (nm)
+def sifat_katalitik(ukuran_nanopartikel):
+    if ukuran_nanopartikel < 5:
+        return "Nanopartikel ini memiliki sifat katalitik yang sangat tinggi karena efek kuantum dan luas permukaan yang besar."
+    elif ukuran_nanopartikel < 20:
+        return "Nanopartikel ini memiliki sifat katalitik yang baik, namun efek kuantum mulai berkurang."
+    else:
+        return "Nanopartikel ini lebih mirip dengan material bulk, dengan sifat katalitik yang moderat."
 
 # Tampilan Streamlit
-st.title("Nanopedia - Sifat Fisik Nanopartikel")
-st.markdown("Masukkan ukuran nanopartikel (dalam nm) dan panjang gelombang untuk mengetahui sifat fisik dari nanopartikel.")
+st.title("Nanopedia - Sifat Fisik Nanomaterial")
+st.markdown("""
+Aplikasi ini memungkinkan Anda untuk menghitung sifat fisik dari nanomaterial, seperti warna larutan berdasarkan panjang gelombang dan sifat katalitik berdasarkan ukuran nanopartikel.
+""")
 
 # Input dari pengguna
+panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
 ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
-panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=200.0, max_value=2000.0, step=1.0)
 
 # Kalkulasi
-if ukuran_nanopartikel > 0 and panjang_gelombang > 0:
-    # Menghitung band gap
-    band_gap = hitung_band_gap(ukuran_nanopartikel)
-    # Menghitung absorbansi
-    absorbansi = hitung_absorbansi(panjang_gelombang)
+if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
+    # Menghitung warna larutan berdasarkan panjang gelombang
+    warna_larutan = hitung_warna(panjang_gelombang)
+    
+    # Menentukan sifat katalitik berdasarkan ukuran nanopartikel
+    sifat_katalitik_result = sifat_katalitik(ukuran_nanopartikel)
+    
     # Menampilkan hasil
     st.subheader("Hasil Kalkulasi:")
-    st.write(f"Band Gap (eV): {band_gap:.2f}")
-    st.write(f"Absorbansi: {absorbansi:.4f}")
-    st.write(f"Fenomena Fisik: {fenomena_fisik(ukuran_nanopartikel)}")
-
+    st.write(f"**Warna Larutan (sesuai panjang gelombang {panjang_gelombang} nm):** {warna_larutan}")
+    st.write(f"**Sifat Katalitik Nanopartikel (Ukuran {ukuran_nanopartikel} nm):** {sifat_katalitik_result}")
+    
     # Menampilkan informasi lebih lanjut dalam bentuk tabel
     st.subheader("Informasi Tambahan")
-    st.write("Tabel hubungan ukuran nanopartikel dengan sifat fisiknya:")
     data = {
+        "Panjang Gelombang (nm)": [panjang_gelombang],
+        "Warna Larutan": [warna_larutan],
         "Ukuran Nanopartikel (nm)": [ukuran_nanopartikel],
-        "Band Gap (eV)": [band_gap],
-        "Absorbansi": [absorbansi],
-        "Fenomena Fisik": [fenomena_fisik(ukuran_nanopartikel)],
+        "Sifat Katalitik": [sifat_katalitik_result]
     }
     st.write(data)
 
 else:
-    st.warning("Masukkan ukuran nanopartikel dan panjang gelombang dengan benar.")
+    st.warning("Masukkan panjang gelombang dan ukuran nanopartikel dengan benar.")
