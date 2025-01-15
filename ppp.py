@@ -67,7 +67,7 @@ def sifat_material(material):
             "Warna": "Perak keabuan",
             "Sifat Katalitik": "Bagus dalam reaksi oksidasi",
             "Densitas": "4.5 g/cm³",
-            "Titik Leleh": "1668°C",  
+            "Titik Leleh": "1668°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
             "color_code": "#C0C0C0"  # Perak
         },
         "Silver": {
@@ -75,7 +75,7 @@ def sifat_material(material):
             "Warna": "Perak",
             "Sifat Katalitik": "Sangat baik untuk reaksi oksidasi",
             "Densitas": "10.49 g/cm³",
-            "Titik Leleh": "962°C",  
+            "Titik Leleh": "962°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
             "color_code": "#C0C0C0"  # Perak
         },
         "Gold": {
@@ -83,7 +83,7 @@ def sifat_material(material):
             "Warna": "Emas",
             "Sifat Katalitik": "Bagus untuk reaksi reduksi",
             "Densitas": "19.32 g/cm³",
-            "Titik Leleh": "1064°C",  
+            "Titik Leleh": "1064°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
             "color_code": "#FFD700"  # Emas
         },
         "Copper": {
@@ -91,7 +91,7 @@ def sifat_material(material):
             "Warna": "Coklat kemerahan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "8.96 g/cm³",
-            "Titik Leleh": "1085°C",  
+            "Titik Leleh": "1085°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
             "color_code": "#B87333"  # Coklat kemerahan
         },
         "Iron": {
@@ -99,15 +99,17 @@ def sifat_material(material):
             "Warna": "Abu-abu kebiruan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "7.87 g/cm³",
-            "Titik Leleh": "1538°C",  
+            "Titik Leleh": "1538°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
             "color_code": "#B0C4DE"  # Abu-abu kebiruan
         }
     }
     
     return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "Titik Leleh": "Tidak diketahui", "color_code": "#D3D3D3"})
 
+# Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
 
+# Tambahkan beberapa CSS untuk memperindah tampilan
 st.markdown("""
     <style>
         .title {
@@ -128,7 +130,7 @@ st.markdown("""
             margin: 20px;
             background-color: #f3f4f6;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            animation: scaleUp 1.5s ease-in-out;
+            animation: scaleUp 2s ease-in-out;
         }
         .button {
             background-color: #4CAF50;
@@ -154,6 +156,7 @@ st.markdown("""
             pointer-events: none;
             z-index: 1000;
             overflow: hidden;
+            animation: rainAnimation 2s ease-out;
         }
         .raindrop {
             position: absolute;
@@ -174,18 +177,17 @@ st.markdown("""
                 opacity: 0;
             }
         }
+        @keyframes rainAnimation {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
         @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
-        @keyframes bounceIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
         @keyframes scaleUp {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
         }
     </style>
 """, unsafe_allow_html=True)
