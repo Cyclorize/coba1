@@ -67,7 +67,7 @@ def sifat_material(material):
             "Warna": "Perak keabuan",
             "Sifat Katalitik": "Bagus dalam reaksi oksidasi",
             "Densitas": "4.5 g/cm³",
-            "Titik Leleh": "1668°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
+            "Titik Leleh": "1668°C",  
             "color_code": "#C0C0C0"  # Perak
         },
         "Silver": {
@@ -75,7 +75,7 @@ def sifat_material(material):
             "Warna": "Perak",
             "Sifat Katalitik": "Sangat baik untuk reaksi oksidasi",
             "Densitas": "10.49 g/cm³",
-            "Titik Leleh": "962°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
+            "Titik Leleh": "962°C",  
             "color_code": "#C0C0C0"  # Perak
         },
         "Gold": {
@@ -83,7 +83,7 @@ def sifat_material(material):
             "Warna": "Emas",
             "Sifat Katalitik": "Bagus untuk reaksi reduksi",
             "Densitas": "19.32 g/cm³",
-            "Titik Leleh": "1064°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
+            "Titik Leleh": "1064°C",  
             "color_code": "#FFD700"  # Emas
         },
         "Copper": {
@@ -91,7 +91,7 @@ def sifat_material(material):
             "Warna": "Coklat kemerahan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "8.96 g/cm³",
-            "Titik Leleh": "1085°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
+            "Titik Leleh": "1085°C",  
             "color_code": "#B87333"  # Coklat kemerahan
         },
         "Iron": {
@@ -99,17 +99,15 @@ def sifat_material(material):
             "Warna": "Abu-abu kebiruan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "7.87 g/cm³",
-            "Titik Leleh": "1538°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
+            "Titik Leleh": "1538°C",  
             "color_code": "#B0C4DE"  # Abu-abu kebiruan
         }
     }
     
     return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "Titik Leleh": "Tidak diketahui", "color_code": "#D3D3D3"})
 
-# Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
 
-# Tambahkan beberapa CSS untuk memperindah tampilan
 st.markdown("""
     <style>
         .title {
@@ -146,6 +144,35 @@ st.markdown("""
         }
         .animate {
             animation: bounceIn 1.5s ease-out;
+        }
+        .rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .raindrop {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: transparent;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: rainDropAnimation 2s linear infinite;
+        }
+        @keyframes rainDropAnimation {
+            0% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
         }
         @keyframes fadeIn {
             0% { opacity: 0; }
@@ -190,11 +217,11 @@ if st.button('Lihat Hasil', key="calculate", help="Klik untuk melihat hasilnya",
         st.markdown(f'<div class="output-box animate">', unsafe_allow_html=True)
 
         st.subheader("Hasil Sifat Fisik Nanomaterial:")
-        
+
         # Tampilkan tabel sifat material
         data = {
-            "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas", "Titik Leleh"],  # Mengubah "Titik Lebur" menjadi "Titik Leleh"
-            "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"], material_sifat["Titik Leleh"]]  # Mengubah "Titik Lebur" menjadi "Titik Leleh"
+            "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas", "Titik Leleh"],
+            "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"], material_sifat["Titik Leleh"]]
         }
         df = pd.DataFrame(data)
         st.table(df)
@@ -221,5 +248,11 @@ if st.button('Lihat Hasil', key="calculate", help="Klik untuk melihat hasilnya",
         - Sifat fisik nanopartikel berdasarkan penelitian material dari jurnal ilmiah dan database material.
         - Kode warna untuk warna teramati didasarkan pada teori warna spektrum tampak dari panjang gelombang.
         """)
-        
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Menambahkan animasi hujan berwarna
+        st.markdown(f'<div class="rain">', unsafe_allow_html=True)
+        for i in range(100):  # Jumlah tetesan hujan
+            st.markdown(f'<div class="raindrop" style="background-color:{color_code_warna}; animation-delay:{i * 0.1}s;"></div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
