@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 # Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
@@ -68,36 +69,46 @@ def sifat_material(material):
             "Konduktivitas": "Rendah (isolator)",
             "Warna": "Perak keabuan",
             "Sifat Katalitik": "Bagus dalam reaksi oksidasi",
-            "Densitas": "4.5 g/cm³"
+            "Densitas": "4.5 g/cm³",
+            "color_code": "#C0C0C0",  # Perak
+            "gambar": "images/titanium.jpg"  # Pastikan gambar ada di folder 'images'
         },
         "Silver": {
             "Konduktivitas": "Sangat tinggi (konduktor)",
             "Warna": "Perak",
             "Sifat Katalitik": "Sangat baik untuk reaksi oksidasi",
-            "Densitas": "10.49 g/cm³"
+            "Densitas": "10.49 g/cm³",
+            "color_code": "#C0C0C0",  # Perak
+            "gambar": "images/silver.jpg"  # Pastikan gambar ada di folder 'images'
         },
         "Gold": {
             "Konduktivitas": "Tinggi (konduktor)",
             "Warna": "Emas",
             "Sifat Katalitik": "Bagus untuk reaksi reduksi",
-            "Densitas": "19.32 g/cm³"
+            "Densitas": "19.32 g/cm³",
+            "color_code": "#FFD700",  # Emas
+            "gambar": "images/gold.jpg"  # Pastikan gambar ada di folder 'images'
         },
         "Copper": {
             "Konduktivitas": "Tinggi (konduktor)",
             "Warna": "Coklat kemerahan",
             "Sifat Katalitik": "Sedang",
-            "Densitas": "8.96 g/cm³"
+            "Densitas": "8.96 g/cm³",
+            "color_code": "#B87333",  # Coklat kemerahan
+            "gambar": "images/copper.jpg"  # Pastikan gambar ada di folder 'images'
         },
         "Iron": {
             "Konduktivitas": "Sedang",
             "Warna": "Abu-abu kebiruan",
             "Sifat Katalitik": "Sedang",
-            "Densitas": "7.87 g/cm³"
+            "Densitas": "7.87 g/cm³",
+            "color_code": "#B0C4DE",  # Abu-abu kebiruan
+            "gambar": "images/iron.jpg"  # Pastikan gambar ada di folder 'images'
         }
     }
     
     # Mengembalikan sifat material yang dipilih, jika material tidak ada di daftar, tampilkan pesan error.
-    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui"})
+    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "color_code": "#D3D3D3", "gambar": ""})  # Warna default jika tidak ada material yang cocok
 
 # Tampilan aplikasi Streamlit
 st.title("Kalkulator Sifat Fisik Nanomaterial")
@@ -114,7 +125,7 @@ ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_
 if st.button('Lihat Hasil'):
     if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
         # Menghitung warna larutan berdasarkan panjang gelombang
-        warna_diserap, warna_teramati, color_code = hitung_warna(panjang_gelombang)
+        warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
 
         # Menentukan sifat magnetis berdasarkan ukuran nanopartikel
         sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
@@ -122,16 +133,23 @@ if st.button('Lihat Hasil'):
         # Menghitung luas permukaan berdasarkan ukuran nanopartikel
         luas_permukaan_result = luas_permukaan(ukuran_nanopartikel)
 
+        # Mengambil data material
+        material_sifat = sifat_material(material)
+
         # Menampilkan hasil dalam bentuk tabel
         st.subheader("Hasil Sifat Fisik Nanomaterial:")
         
-        # Material
-        st.write(f"**Material yang dipilih**: {material}")
-        
-        # Sifat material
-        material_sifat = sifat_material(material)
-        for key, value in material_sifat.items():
-            st.write(f"**{key}**: {value}")
+        # Tampilkan gambar material
+        if material_sifat['gambar']:
+            st.image(material_sifat['gambar'], caption=material, use_column_width=True)
+
+        # Menampilkan tabel sifat material
+        data = {
+            "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas"],
+            "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"]]
+        }
+        df = pd.DataFrame(data)
+        st.table(df)
 
         # Warna Larutan
         st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
@@ -139,8 +157,8 @@ if st.button('Lihat Hasil'):
         st.write(f"**Warna Teramati**: {warna_teramati}")
         
         # Menampilkan warna larutan yang sesuai
-        st.markdown(f'<div style="background-color:{color_code}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', unsafe_allow_html=True)
-        
+        st.markdown(f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', unsafe_allow_html=True)
+
         # Ukuran Nanopartikel
         st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
         
