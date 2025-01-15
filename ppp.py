@@ -130,7 +130,6 @@ st.markdown("""
             margin: 20px;
             background-color: #f3f4f6;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            animation: scaleUp 2s ease-in-out;
         }
         .button {
             background-color: #4CAF50;
@@ -144,46 +143,11 @@ st.markdown("""
         .button:hover {
             background-color: #45a049;
         }
-        .animate {
-            animation: bounceIn 1.5s ease-out;
-        }
-
-        .rain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            animation: rainAnimation 2s linear;
-        }
-
-        .raindrop {
-            position: absolute;
-            width: 5px;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            animation: rainDropAnimation 2s infinite linear;
-        }
-
-        @keyframes rainDropAnimation {
-            0% { transform: translateY(-100vh); opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
-        }
-
-        @keyframes rainAnimation {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes scaleUp {
-            0% { transform: scale(0); }
-            100% { transform: scale(1); }
-        }
     </style>
 """, unsafe_allow_html=True)
+
+st.markdown('<div class="title">Kalkulator Sifat Fisik Nanomaterial</div>', unsafe_allow_html=True)
+st.markdown('<div class="header">Masukkan data untuk menghitung sifat fisik nanomaterial Anda.</div>', unsafe_allow_html=True)
 
 # Input dari pengguna
 material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
@@ -206,7 +170,7 @@ if st.button('Lihat Hasil', key="calculate", help="Klik untuk melihat hasilnya",
         material_sifat = sifat_material(material)
 
         # Menampilkan hasil dalam bentuk tabel
-        st.markdown(f'<div class="output-box animate">', unsafe_allow_html=True)
+        st.markdown(f'<div class="output-box">', unsafe_allow_html=True)
 
         st.subheader("Hasil Sifat Fisik Nanomaterial:")
 
@@ -242,10 +206,3 @@ if st.button('Lihat Hasil', key="calculate", help="Klik untuk melihat hasilnya",
         """)
 
         st.markdown('</div>', unsafe_allow_html=True)
-
-        # Menambahkan animasi hujan berwarna
-        st.markdown(f'<div class="rain">', unsafe_allow_html=True)
-        for i in range(30):  # Mengurangi jumlah tetesan
-            st.markdown(f'<div class="raindrop" style="background-color:{color_code_warna}; animation-delay:{i * 0.1}s;"></div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-
