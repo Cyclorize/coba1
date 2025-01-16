@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
+import time
 
 # Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
@@ -113,6 +114,12 @@ def sifat_material(material):
         "color_code": "#D3D3D3"
     })
 
+# Fungsi untuk memperkenalkan aplikasi dengan animasi teks sederhana
+def animasi_berjalan(text, delay=0.1):
+    for i in range(len(text)+1):
+        st.markdown(text[:i], unsafe_allow_html=True)
+        time.sleep(delay)
+
 # Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
 
@@ -121,16 +128,21 @@ image = Image.open("AKA.jpg")
 st.sidebar.image(image, use_container_width=True)
 st.sidebar.title("Navigasi")
 
-# Pilih halaman
+# Halaman awal
 menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator", "Identitas Pembuat"])
 
 if menu == "Selamat Datang":
     st.title("Selamat Datang di Kalkulator Sifat Fisik Nanomaterial")
+    # Menampilkan teks dengan animasi
+    animasi_berjalan("Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik nanomaterial.", delay=0.1)
     st.write("""
         Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik dari nanomaterial berdasarkan panjang gelombang, 
         ukuran nanopartikel, dan material yang dipilih.
         Gunakan navigasi di sidebar untuk mengakses halaman lainnya.
     """)
+    
+    # Menambahkan animasi loading atau gambar terkait
+    st.markdown('<div style="text-align:center;"><img src="https://media.giphy.com/media/l0HlPMp7s1YPv4y6E/giphy.gif" width="500"></div>', unsafe_allow_html=True)
 
 elif menu == "Penjelasan":
     st.title("Penjelasan Aplikasi")
@@ -141,54 +153,30 @@ elif menu == "Penjelasan":
         - **Sifat Magnetis:** Ditentukan berdasarkan ukuran nanopartikel, dengan rentang efek superparamagnetik.
         - **Luas Permukaan:** Menghitung luas permukaan nanopartikel berdasarkan ukurannya.
     """)
-
+    
 elif menu == "Kalkulator":
     st.title("Kalkulator Sifat Fisik Nanomaterial")
-
     material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
     panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
     ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
 
     if st.button("Lihat Hasil"):
         if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
+            # Menampilkan animasi Erlenmeyer dengan warna larutan yang dinamis
             warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
-            sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
-            luas_permukaan_result = luas_permukaan(ukuran_nanopartikel)
-            material_sifat = sifat_material(material)
-
-            st.subheader("Hasil Sifat Fisik Nanomaterial:")
-
-            data = {
-                "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas", "Titik Leleh"],
-                "Nilai": [
-                    material_sifat["Konduktivitas"],
-                    material_sifat["Warna"],
-                    material_sifat["Sifat Katalitik"],
-                    material_sifat["Densitas"],
-                    material_sifat["Titik Leleh"]
-                ]
-            }
-            df = pd.DataFrame(data)
-            st.table(df)
-
-            st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
-            st.write(f"**Warna Diserap**: {warna_diserap}")
-            st.write(f"**Warna Teramati**: {warna_teramati}")
             st.markdown(
                 f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', 
                 unsafe_allow_html=True
             )
+            st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
+            st.write(f"**Warna Diserap**: {warna_diserap}")
+            st.write(f"**Warna Teramati**: {warna_teramati}")
             st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
-            st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
-            st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
+            st.write(f"**Sifat Magnetis**: {sifat_magnetis(ukuran_nanopartikel)}")
+            st.write(f"**Luas Permukaan**: {luas_permukaan(ukuran_nanopartikel)}")
 
-        # Menampilkan sumber informasi
-        st.markdown("""
-        ### Sumber Informasi:
-        - Data mengenai panjang gelombang dan warna yang diserap diambil dari literatur fisika optik dan teori spektroskopi.
-        - Sifat fisik nanopartikel berdasarkan penelitian material dari jurnal ilmiah dan database material.
-        - Kode warna untuk warna teramati didasarkan pada teori warna spektrum tampak dari panjang gelombang.
-        """)
+            # Menampilkan gambar animasi atau simulasi terkait
+            st.markdown(f'<div style="text-align:center;"><img src="https://media.giphy.com/media/10hNiwSj8DBVCE/giphy.gif" width="300"></div>', unsafe_allow_html=True)
 
 elif menu == "Identitas Pembuat":
     st.title("Identitas Pembuat")
