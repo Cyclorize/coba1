@@ -144,8 +144,8 @@ if menu == "Selamat Datang":
         unsafe_allow_html=True
     )
     
-    # Menambahkan animasi loading atau gambar terkait
-    st.markdown('<div style="text-align:center;"><img src="https://media.giphy.com/media/l0HlPMp7s1YPv4y6E/giphy.gif" width="500"></div>', unsafe_allow_html=True)
+    # Menambahkan animasi Erlenmeyer.gif
+    st.markdown('<div style="text-align:center;"><img src="Erlenmeyer.gif" width="500"></div>', unsafe_allow_html=True)
 
 elif menu == "Penjelasan":
     st.title("Penjelasan Aplikasi")
@@ -178,8 +178,8 @@ elif menu == "Kalkulator":
             st.write(f"**Sifat Magnetis**: {sifat_magnetis(ukuran_nanopartikel)}")
             st.write(f"**Luas Permukaan**: {luas_permukaan(ukuran_nanopartikel)}")
 
-            # Menampilkan gambar animasi atau simulasi terkait
-            st.markdown(f'<div style="text-align:center;"><img src="https://media.giphy.com/media/10hNiwSj8DBVCE/giphy.gif" width="300"></div>', unsafe_allow_html=True)
+            # Menampilkan gambar animasi Erlenmeyer
+            st.markdown(f'<div style="text-align:center;"><img src="Erlenmeyer.gif" width="300"></div>', unsafe_allow_html=True)
 
 elif menu == "Identitas Pembuat":
     st.title("Identitas Pembuat")
