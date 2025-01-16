@@ -104,14 +104,21 @@ def sifat_material(material):
             "color_code": "#B0C4DE"
         }
     }
-    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "Titik Leleh": "Tidak diketahui", "color_code": "#D3D3D3"})
+    return material_sifat.get(material, {
+        "Konduktivitas": "Tidak diketahui", 
+        "Warna": "Tidak diketahui", 
+        "Sifat Katalitik": "Tidak diketahui", 
+        "Densitas": "Tidak diketahui", 
+        "Titik Leleh": "Tidak diketahui", 
+        "color_code": "#D3D3D3"
+    })
 
 # Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
 
 # Sidebar dengan gambar
 image = Image.open("AKA.jpg")
-st.sidebar.image(image, use_container_width=True,
+st.sidebar.image(image, use_container_width=True)
 st.sidebar.title("Navigasi")
 
 # Pilih halaman
@@ -174,13 +181,11 @@ elif menu == "Kalkulator":
             st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
             st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
             st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
-          
-# Menampilkan sumber informasi
+
+        # Menampilkan sumber informasi
         st.markdown("""
         ### Sumber Informasi:
         - Data mengenai panjang gelombang dan warna yang diserap diambil dari literatur fisika optik dan teori spektroskopi.
         - Sifat fisik nanopartikel berdasarkan penelitian material dari jurnal ilmiah dan database material.
         - Kode warna untuk warna teramati didasarkan pada teori warna spektrum tampak dari panjang gelombang.
         """)
-
-        st.markdown('</div>', unsafe_allow_html=True)
