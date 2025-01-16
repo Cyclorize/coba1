@@ -132,14 +132,17 @@ st.sidebar.title("Navigasi")
 menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator", "Identitas Pembuat"])
 
 if menu == "Selamat Datang":
-    st.title("Selamat Datang di Kalkulator Sifat Fisik Nanomaterial")
-    # Menampilkan teks dengan animasi
-    animasi_berjalan("Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik nanomaterial.", delay=0.1)
-    st.write("""
-        Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik dari nanomaterial berdasarkan panjang gelombang, 
-        ukuran nanopartikel, dan material yang dipilih.
-        Gunakan navigasi di sidebar untuk mengakses halaman lainnya.
-    """)
+    # Judul besar dan font menarik
+    st.markdown(
+        "<h1 style='text-align: center; color: #4B0082;'>Selamat Datang di Kalkulator Sifat Fisik Nanomaterial</h1>", 
+        unsafe_allow_html=True
+    )
+
+    # Deskripsi singkat dengan gaya font yang berbeda
+    st.markdown(
+        "<p style='text-align: center; font-size: 20px; color: #555;'>Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik dari nanomaterial berdasarkan panjang gelombang, ukuran nanopartikel, dan material yang dipilih.</p>", 
+        unsafe_allow_html=True
+    )
     
     # Menambahkan animasi loading atau gambar terkait
     st.markdown('<div style="text-align:center;"><img src="https://media.giphy.com/media/l0HlPMp7s1YPv4y6E/giphy.gif" width="500"></div>', unsafe_allow_html=True)
