@@ -1,48 +1,49 @@
 import streamlit as st
 import pandas as pd
+from PIL import Image
 
 # Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
     if 400 <= panjang_gelombang < 430:
         warna_diserap = "Violet"
         warna_teramati = "Kuning terang"
-        color_code = "#FFFF00"  # Kuning terang
+        color_code = "#FFFF00"
     elif 430 <= panjang_gelombang < 480:
         warna_diserap = "Nila"
         warna_teramati = "Kuning"
-        color_code = "#FFFF00"  # Kuning
+        color_code = "#FFFF00"
     elif 480 <= panjang_gelombang < 500:
         warna_diserap = "Biru"
         warna_teramati = "Oranye"
-        color_code = "#FFA500"  # Oranye
+        color_code = "#FFA500"
     elif 500 <= panjang_gelombang < 530:
         warna_diserap = "Biru kehijauan"
         warna_teramati = "Merah"
-        color_code = "#FF0000"  # Merah
+        color_code = "#FF0000"
     elif 530 <= panjang_gelombang < 560:
         warna_diserap = "Hijau"
         warna_teramati = "Ungu"
-        color_code = "#800080"  # Ungu
+        color_code = "#800080"
     elif 560 <= panjang_gelombang < 580:
         warna_diserap = "Kuning terang"
         warna_teramati = "Violet"
-        color_code = "#8A2BE2"  # Violet
+        color_code = "#8A2BE2"
     elif 580 <= panjang_gelombang < 610:
         warna_diserap = "Kuning"
         warna_teramati = "Nila"
-        color_code = "#4B0082"  # Nila
+        color_code = "#4B0082"
     elif 610 <= panjang_gelombang < 680:
         warna_diserap = "Oranye"
         warna_teramati = "Biru"
-        color_code = "#0000FF"  # Biru
+        color_code = "#0000FF"
     elif 680 <= panjang_gelombang < 800:
         warna_diserap = "Merah"
         warna_teramati = "Biru kehijauan"
-        color_code = "#20B2AA"  # Biru kehijauan
+        color_code = "#20B2AA"
     else:
         warna_diserap = "Tidak Terlihat"
         warna_teramati = "Tidak Terlihat"
-        color_code = "#D3D3D3"  # Abu-abu untuk panjang gelombang di luar rentang tampak
+        color_code = "#D3D3D3"
     return warna_diserap, warna_teramati, color_code
 
 # Fungsi untuk menentukan sifat magnetis berdasarkan ukuran nanopartikel (nm)
@@ -108,78 +109,78 @@ def sifat_material(material):
 # Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
 
-# Sidebar untuk navigasi
-menu = st.sidebar.radio("Navigasi", ["Selamat Datang", "Penjelasan", "Kalkulator"])
+# Sidebar dengan gambar
+image = Image.open("AKA.jpg")
+st.sidebar.image(image, use_column_width=True)
+st.sidebar.title("Navigasi")
+
+# Pilih halaman
+menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator"])
 
 if menu == "Selamat Datang":
-    st.markdown("""
-        <div style="text-align: center; font-size: 36px; font-weight: bold; color: #1e3a8a;">
-            Selamat Datang di Aplikasi Kalkulator Sifat Fisik Nanomaterial
-        </div>
-        <p style="text-align: center; font-size: 18px;">Gunakan aplikasi ini untuk mempelajari sifat fisik nanomaterial Anda.</p>
-    """, unsafe_allow_html=True)
+    st.title("Selamat Datang di Kalkulator Sifat Fisik Nanomaterial")
+    st.write("""
+        Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik dari nanomaterial berdasarkan panjang gelombang, 
+        ukuran nanopartikel, dan material yang dipilih.
+        Gunakan navigasi di sidebar untuk mengakses halaman lainnya.
+    """)
 
 elif menu == "Penjelasan":
-    st.markdown("""
-        ## Penjelasan Aplikasi
-        Aplikasi ini dirancang untuk menghitung dan menampilkan sifat fisik nanomaterial berdasarkan:
-        
-        - **Material yang Dipilih:** Seperti Titanium, Silver, Gold, Copper, atau Iron.
-        - **Panjang Gelombang (nm):** Untuk menentukan warna larutan.
-        - **Ukuran Nanopartikel (nm):** Untuk menentukan sifat magnetis dan luas permukaan.
-        
-        ### Cara Kerja:
-        - Masukkan panjang gelombang cahaya dan ukuran nanopartikel.
-        - Pilih material logam yang diinginkan.
-        - Klik tombol "Lihat Hasil" untuk melihat hasil perhitungan.
+    st.title("Penjelasan Aplikasi")
+    st.write("""
+        Pada halaman ini, Anda akan mempelajari lebih lanjut tentang fitur dan fungsi aplikasi ini:
+
+        - **Warna Larutan:** Ditentukan berdasarkan panjang gelombang cahaya tampak yang diserap oleh material.
+        - **Sifat Magnetis:** Ditentukan berdasarkan ukuran nanopartikel, dengan rentang efek superparamagnetik.
+        - **Luas Permukaan:** Menghitung luas permukaan nanopartikel berdasarkan ukurannya.
     """)
 
 elif menu == "Kalkulator":
-    st.markdown("""
-        <div style="text-align: center; font-size: 36px; font-weight: bold; color: #1e3a8a;">
-            Kalkulator Sifat Fisik Nanomaterial
-        </div>
-    """, unsafe_allow_html=True)
+    st.title("Kalkulator Sifat Fisik Nanomaterial")
 
-    # Input dari pengguna
     material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
     panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
     ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
 
-    # Tombol untuk menghitung hasil
-    if st.button('Lihat Hasil'):
+    if st.button("Lihat Hasil"):
         if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
-            # Menghitung warna larutan berdasarkan panjang gelombang
             warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
-
-            # Menentukan sifat magnetis berdasarkan ukuran nanopartikel
             sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
-
-            # Menghitung luas permukaan berdasarkan ukuran nanopartikel
             luas_permukaan_result = luas_permukaan(ukuran_nanopartikel)
-
-            # Mengambil data material
             material_sifat = sifat_material(material)
 
-            # Menampilkan hasil dalam bentuk tabel
             st.subheader("Hasil Sifat Fisik Nanomaterial:")
 
             data = {
                 "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas", "Titik Leleh"],
-                "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"], material_sifat["Titik Leleh"]]
+                "Nilai": [
+                    material_sifat["Konduktivitas"],
+                    material_sifat["Warna"],
+                    material_sifat["Sifat Katalitik"],
+                    material_sifat["Densitas"],
+                    material_sifat["Titik Leleh"]
+                ]
             }
             df = pd.DataFrame(data)
             st.table(df)
 
-            # Warna Larutan
             st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
             st.write(f"**Warna Diserap**: {warna_diserap}")
             st.write(f"**Warna Teramati**: {warna_teramati}")
-
-            st.markdown(f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', unsafe_allow_html=True)
-
-            # Ukuran Nanopartikel
+            st.markdown(
+                f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', 
+                unsafe_allow_html=True
+            )
             st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
-
             st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
             st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
+          
+# Menampilkan sumber informasi
+        st.markdown("""
+        ### Sumber Informasi:
+        - Data mengenai panjang gelombang dan warna yang diserap diambil dari literatur fisika optik dan teori spektroskopi.
+        - Sifat fisik nanopartikel berdasarkan penelitian material dari jurnal ilmiah dan database material.
+        - Kode warna untuk warna teramati didasarkan pada teori warna spektrum tampak dari panjang gelombang.
+        """)
+
+        st.markdown('</div>', unsafe_allow_html=True)
