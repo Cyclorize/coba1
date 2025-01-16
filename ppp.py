@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import time
+import os
 
 # Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
@@ -144,8 +145,8 @@ if menu == "Selamat Datang":
         unsafe_allow_html=True
     )
     
-    # Menambahkan animasi Erlenmeyer.gif
-    st.markdown('<div style="text-align:center;"><img src="Erlenmeyer.gif" width="500"></div>', unsafe_allow_html=True)
+    # Menambahkan animasi Erlenmeyer.gif menggunakan st.image
+    st.image("Erlenmeyer.gif", width=500)
 
 elif menu == "Penjelasan":
     st.title("Penjelasan Aplikasi")
@@ -156,7 +157,7 @@ elif menu == "Penjelasan":
         - **Sifat Magnetis:** Ditentukan berdasarkan ukuran nanopartikel, dengan rentang efek superparamagnetik.
         - **Luas Permukaan:** Menghitung luas permukaan nanopartikel berdasarkan ukurannya.
     """)
-    
+
 elif menu == "Kalkulator":
     st.title("Kalkulator Sifat Fisik Nanomaterial")
     material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
@@ -178,8 +179,8 @@ elif menu == "Kalkulator":
             st.write(f"**Sifat Magnetis**: {sifat_magnetis(ukuran_nanopartikel)}")
             st.write(f"**Luas Permukaan**: {luas_permukaan(ukuran_nanopartikel)}")
 
-            # Menampilkan gambar animasi Erlenmeyer
-            st.markdown(f'<div style="text-align:center;"><img src="Erlenmeyer.gif" width="300"></div>', unsafe_allow_html=True)
+            # Menampilkan gambar animasi atau simulasi terkait
+            st.markdown(f'<div style="text-align:center;"><img src="https://media.giphy.com/media/10hNiwSj8DBVCE/giphy.gif" width="300"></div>', unsafe_allow_html=True)
 
 elif menu == "Identitas Pembuat":
     st.title("Identitas Pembuat")
