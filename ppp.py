@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
-import plotly.graph_objects as go
 
 # Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
@@ -93,42 +92,12 @@ def sifat_material(material):
     }
     return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "Titik Leleh": "Tidak diketahui", "color_code": "#D3D3D3"})
 
-# Fungsi untuk menampilkan animasi larutan dalam erlenmeyer
-def plot_larutan_animasi(color_code):
-    fig = go.Figure()
-
-    # Membuat bentuk Erlenmeyer
-    erlenmeyer = go.Scatter(
-        x=[0, 1, 0.5, 0],
-        y=[0, 0, 3, 3],
-        fill='toself',
-        fillcolor="gray",
-        line=dict(color='black'),
-        mode='lines',
-        name="Erlenmeyer"
+# Fungsi untuk menampilkan larutan dalam bentuk statis
+def gambar_larutan(color_code):
+    st.markdown(
+        f"""<div style='width:100px; height:150px; border:2px solid black; border-radius:10px; background-color: {color_code}; margin:auto'></div>""",
+        unsafe_allow_html=True
     )
-    fig.add_trace(erlenmeyer)
-
-    # Larutan dengan warna yang dipilih
-    fig.add_trace(go.Scatter(
-        x=[0, 1, 0.5, 0],
-        y=[0, 0, 2.5, 2.5],
-        fill='toself',
-        fillcolor=color_code,
-        line=dict(color='black'),
-        mode='lines',
-        name="Larutan"
-    ))
-
-    # Set layout
-    fig.update_layout(
-        title="Larutan dalam Erlenmeyer",
-        xaxis=dict(range=[-1, 2], showgrid=False, zeroline=False),
-        yaxis=dict(range=[-1, 4], showgrid=False, zeroline=False),
-        showlegend=False
-    )
-
-    return fig
 
 # Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
@@ -144,7 +113,6 @@ if menu == "Selamat Datang":
         ukuran nanopartikel, dan material yang dipilih.
     
         Gunakan navigasi di sidebar untuk mengakses halaman lainnya.
-    
     
     """)
 
@@ -184,7 +152,7 @@ elif menu == "Kalkulator":
 
             st.write(f"**Warna Diserap**: {warna_diserap}")
             st.write(f"**Warna Teramati**: {warna_teramati}")
-            st.plotly_chart(plot_larutan_animasi(color_code_warna))
+            gambar_larutan(color_code_warna)
 
 elif menu == "Identitas Pembuat":
     st.title("Identitas Pembuat")
