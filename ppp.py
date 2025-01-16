@@ -145,8 +145,14 @@ if menu == "Selamat Datang":
         unsafe_allow_html=True
     )
     
-    # Menambahkan animasi Erlenmeyer.gif menggunakan st.image
-    st.image("Erlenmeyer.gif", width=500)
+    # Menambahkan animasi Erlenmeyer.gif menggunakan st.image dan CSS untuk memusatkan gambar
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            <img src="Erlenmeyer.gif" width="500">
+        </div>
+        """, unsafe_allow_html=True
+    )
 
 elif menu == "Penjelasan":
     st.title("Penjelasan Aplikasi")
