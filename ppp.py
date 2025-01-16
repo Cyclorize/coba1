@@ -42,7 +42,7 @@ def hitung_warna(panjang_gelombang):
     else:
         warna_diserap = "Tidak Terlihat"
         warna_teramati = "Tidak Terlihat"
-        color_code = "#D3D3D3"  # Kode warna abu-abu untuk panjang gelombang di luar rentang tampak
+        color_code = "#D3D3D3"  # Abu-abu untuk panjang gelombang di luar rentang tampak
     return warna_diserap, warna_teramati, color_code
 
 # Fungsi untuk menentukan sifat magnetis berdasarkan ukuran nanopartikel (nm)
@@ -67,142 +67,119 @@ def sifat_material(material):
             "Warna": "Perak keabuan",
             "Sifat Katalitik": "Bagus dalam reaksi oksidasi",
             "Densitas": "4.5 g/cm³",
-            "Titik Leleh": "1668°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
-            "color_code": "#C0C0C0"  # Perak
+            "Titik Leleh": "1668°C",
+            "color_code": "#C0C0C0"
         },
         "Silver": {
             "Konduktivitas": "Sangat tinggi (konduktor)",
             "Warna": "Perak",
             "Sifat Katalitik": "Sangat baik untuk reaksi oksidasi",
             "Densitas": "10.49 g/cm³",
-            "Titik Leleh": "962°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
-            "color_code": "#C0C0C0"  # Perak
+            "Titik Leleh": "962°C",
+            "color_code": "#C0C0C0"
         },
         "Gold": {
             "Konduktivitas": "Tinggi (konduktor)",
             "Warna": "Emas",
             "Sifat Katalitik": "Bagus untuk reaksi reduksi",
             "Densitas": "19.32 g/cm³",
-            "Titik Leleh": "1064°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
-            "color_code": "#FFD700"  # Emas
+            "Titik Leleh": "1064°C",
+            "color_code": "#FFD700"
         },
         "Copper": {
             "Konduktivitas": "Tinggi (konduktor)",
             "Warna": "Coklat kemerahan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "8.96 g/cm³",
-            "Titik Leleh": "1085°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
-            "color_code": "#B87333"  # Coklat kemerahan
+            "Titik Leleh": "1085°C",
+            "color_code": "#B87333"
         },
         "Iron": {
             "Konduktivitas": "Sedang",
             "Warna": "Abu-abu kebiruan",
             "Sifat Katalitik": "Sedang",
             "Densitas": "7.87 g/cm³",
-            "Titik Leleh": "1538°C",  # Diubah dari "Titik Lebur" menjadi "Titik Leleh"
-            "color_code": "#B0C4DE"  # Abu-abu kebiruan
+            "Titik Leleh": "1538°C",
+            "color_code": "#B0C4DE"
         }
     }
-    
     return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "Titik Leleh": "Tidak diketahui", "color_code": "#D3D3D3"})
 
 # Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
 
-# Tambahkan beberapa CSS untuk memperindah tampilan
-st.markdown("""
-    <style>
-        .title {
-            text-align: center;
-            font-size: 40px;
-            font-weight: bold;
-            color: #1e3a8a;
-            animation: fadeIn 2s ease-out;
-        }
-        .header {
-            text-align: center;
-            font-size: 20px;
-            color: #4CAF50;
-        }
-        .output-box {
-            border-radius: 10px;
-            padding: 30px;
-            margin: 20px;
-            background-color: #f3f4f6;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: none;
-        }
-        .button:hover {
-            background-color: #45a049;
-        }
-    </style>
-""", unsafe_allow_html=True)
+# Sidebar untuk navigasi
+menu = st.sidebar.radio("Navigasi", ["Selamat Datang", "Penjelasan", "Kalkulator"])
 
-st.markdown('<div class="title">Kalkulator Sifat Fisik Nanomaterial</div>', unsafe_allow_html=True)
-st.markdown('<div class="header">Masukkan data untuk menghitung sifat fisik nanomaterial Anda.</div>', unsafe_allow_html=True)
+if menu == "Selamat Datang":
+    st.markdown("""
+        <div style="text-align: center; font-size: 36px; font-weight: bold; color: #1e3a8a;">
+            Selamat Datang di Aplikasi Kalkulator Sifat Fisik Nanomaterial
+        </div>
+        <p style="text-align: center; font-size: 18px;">Gunakan aplikasi ini untuk mempelajari sifat fisik nanomaterial Anda.</p>
+    """, unsafe_allow_html=True)
 
-# Input dari pengguna
-material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
-panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
-ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
-
-# Tombol untuk menghitung hasil
-if st.button('Lihat Hasil', key="calculate", help="Klik untuk melihat hasilnya", use_container_width=True):
-    if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
-        # Menghitung warna larutan berdasarkan panjang gelombang
-        warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
-
-        # Menentukan sifat magnetis berdasarkan ukuran nanopartikel
-        sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
-
-        # Menghitung luas permukaan berdasarkan ukuran nanopartikel
-        luas_permukaan_result = luas_permukaan(ukuran_nanopartikel)
-
-        # Mengambil data material
-        material_sifat = sifat_material(material)
-
-        # Menampilkan hasil dalam bentuk tabel
-        st.markdown(f'<div class="output-box">', unsafe_allow_html=True)
-
-        st.subheader("Hasil Sifat Fisik Nanomaterial:")
-
-        # Tampilkan tabel sifat material
-        data = {
-            "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas", "Titik Leleh"],
-            "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"], material_sifat["Titik Leleh"]]
-        }
-        df = pd.DataFrame(data)
-        st.table(df)
-
-        # Warna Larutan
-        st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
-        st.write(f"**Warna Diserap**: {warna_diserap}")
-        st.write(f"**Warna Teramati**: {warna_teramati}")
+elif menu == "Penjelasan":
+    st.markdown("""
+        ## Penjelasan Aplikasi
+        Aplikasi ini dirancang untuk menghitung dan menampilkan sifat fisik nanomaterial berdasarkan:
         
-        # Menampilkan warna larutan yang sesuai
-        st.markdown(f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', unsafe_allow_html=True)
-
-        # Ukuran Nanopartikel
-        st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
+        - **Material yang Dipilih:** Seperti Titanium, Silver, Gold, Copper, atau Iron.
+        - **Panjang Gelombang (nm):** Untuk menentukan warna larutan.
+        - **Ukuran Nanopartikel (nm):** Untuk menentukan sifat magnetis dan luas permukaan.
         
-        # Menampilkan sifat fisik lainnya
-        st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
-        st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
+        ### Cara Kerja:
+        - Masukkan panjang gelombang cahaya dan ukuran nanopartikel.
+        - Pilih material logam yang diinginkan.
+        - Klik tombol "Lihat Hasil" untuk melihat hasil perhitungan.
+    """)
 
-        # Menampilkan sumber informasi
-        st.markdown("""
-        ### Sumber Informasi:
-        - Data mengenai panjang gelombang dan warna yang diserap diambil dari literatur fisika optik dan teori spektroskopi.
-        - Sifat fisik nanopartikel berdasarkan penelitian material dari jurnal ilmiah dan database material.
-        - Kode warna untuk warna teramati didasarkan pada teori warna spektrum tampak dari panjang gelombang.
-        """)
+elif menu == "Kalkulator":
+    st.markdown("""
+        <div style="text-align: center; font-size: 36px; font-weight: bold; color: #1e3a8a;">
+            Kalkulator Sifat Fisik Nanomaterial
+        </div>
+    """, unsafe_allow_html=True)
 
-        st.markdown('</div>', unsafe_allow_html=True)
+    # Input dari pengguna
+    material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
+    panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
+    ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
+
+    # Tombol untuk menghitung hasil
+    if st.button('Lihat Hasil'):
+        if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
+            # Menghitung warna larutan berdasarkan panjang gelombang
+            warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
+
+            # Menentukan sifat magnetis berdasarkan ukuran nanopartikel
+            sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
+
+            # Menghitung luas permukaan berdasarkan ukuran nanopartikel
+            luas_permukaan_result = luas_permukaan(ukuran_nanopartikel)
+
+            # Mengambil data material
+            material_sifat = sifat_material(material)
+
+            # Menampilkan hasil dalam bentuk tabel
+            st.subheader("Hasil Sifat Fisik Nanomaterial:")
+
+            data = {
+                "Sifat": ["Konduktivitas", "Warna", "Sifat Katalitik", "Densitas", "Titik Leleh"],
+                "Nilai": [material_sifat["Konduktivitas"], material_sifat["Warna"], material_sifat["Sifat Katalitik"], material_sifat["Densitas"], material_sifat["Titik Leleh"]]
+            }
+            df = pd.DataFrame(data)
+            st.table(df)
+
+            # Warna Larutan
+            st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
+            st.write(f"**Warna Diserap**: {warna_diserap}")
+            st.write(f"**Warna Teramati**: {warna_teramati}")
+
+            st.markdown(f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', unsafe_allow_html=True)
+
+            # Ukuran Nanopartikel
+            st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
+
+            st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
+            st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
