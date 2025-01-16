@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import time
-import os
 
 # Fungsi untuk menghitung warna larutan berdasarkan panjang gelombang (nm)
 def hitung_warna(panjang_gelombang):
@@ -144,15 +143,6 @@ if menu == "Selamat Datang":
         "<p style='text-align: center; font-size: 20px; color: #555;'>Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik dari nanomaterial berdasarkan panjang gelombang, ukuran nanopartikel, dan material yang dipilih.</p>", 
         unsafe_allow_html=True
     )
-    
-    # Menambahkan animasi Erlenmeyer.gif menggunakan st.image dan CSS untuk memusatkan gambar
-    st.markdown(
-        """
-        <div style="text-align: center;">
-            <img src="Erlenmeyer.gif" width="500">
-        </div>
-        """, unsafe_allow_html=True
-    )
 
 elif menu == "Penjelasan":
     st.title("Penjelasan Aplikasi")
@@ -172,7 +162,7 @@ elif menu == "Kalkulator":
 
     if st.button("Lihat Hasil"):
         if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
-            # Menampilkan animasi Erlenmeyer dengan warna larutan yang dinamis
+            # Menampilkan warna larutan yang dinamis
             warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
             st.markdown(
                 f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', 
@@ -184,9 +174,6 @@ elif menu == "Kalkulator":
             st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
             st.write(f"**Sifat Magnetis**: {sifat_magnetis(ukuran_nanopartikel)}")
             st.write(f"**Luas Permukaan**: {luas_permukaan(ukuran_nanopartikel)}")
-
-            # Menampilkan gambar animasi atau simulasi terkait
-            st.markdown(f'<div style="text-align:center;"><img src="https://media.giphy.com/media/10hNiwSj8DBVCE/giphy.gif" width="300"></div>', unsafe_allow_html=True)
 
 elif menu == "Identitas Pembuat":
     st.title("Identitas Pembuat")
