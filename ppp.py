@@ -122,7 +122,7 @@ st.sidebar.image(image, use_container_width=True)
 st.sidebar.title("Navigasi")
 
 # Pilih halaman
-menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator"])
+menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator", "Identitas Pembuat"])
 
 if menu == "Selamat Datang":
     st.title("Selamat Datang di Kalkulator Sifat Fisik Nanomaterial")
@@ -189,3 +189,16 @@ elif menu == "Kalkulator":
         - Sifat fisik nanopartikel berdasarkan penelitian material dari jurnal ilmiah dan database material.
         - Kode warna untuk warna teramati didasarkan pada teori warna spektrum tampak dari panjang gelombang.
         """)
+
+elif menu == "Identitas Pembuat":
+    st.title("Identitas Pembuat")
+    st.write("""
+        Aplikasi ini dikembangkan oleh mahasiswa Program Studi D4 Nanoteknologi Pangan Politeknik AKA Bogor.
+        
+        **Anggota Kelompok:**
+        1. Alifa Nadia Utami (2350072)
+        2. Nayla Haliza Rahma (2350123)
+        3. Larissa Febriyanti (2350104)
+        4. Aulia Salwa Sahputri Malau (2350078)
+        5. Muhammad Thoriq Syafaat (2350111)
+    """)
