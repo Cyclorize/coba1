@@ -132,13 +132,10 @@ st.sidebar.title("Navigasi")
 menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator", "Identitas Pembuat"])
 
 if menu == "Selamat Datang":
-    # Judul besar dan font menarik
     st.markdown(
         "<h1 style='text-align: center; color: #4B0082;'>Selamat Datang di Kalkulator Sifat Fisik Nanomaterial</h1>", 
         unsafe_allow_html=True
     )
-
-    # Deskripsi singkat dengan gaya font yang berbeda
     st.markdown(
         "<p style='text-align: center; font-size: 20px; color: #555;'>Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik dari nanomaterial berdasarkan panjang gelombang, ukuran nanopartikel, dan material yang dipilih.</p>", 
         unsafe_allow_html=True
@@ -162,7 +159,6 @@ elif menu == "Kalkulator":
 
     if st.button("Lihat Hasil"):
         if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
-            # Menampilkan warna larutan yang dinamis
             warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
             st.markdown(
                 f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', 
@@ -174,6 +170,15 @@ elif menu == "Kalkulator":
             st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
             st.write(f"**Sifat Magnetis**: {sifat_magnetis(ukuran_nanopartikel)}")
             st.write(f"**Luas Permukaan**: {luas_permukaan(ukuran_nanopartikel)}")
+
+            sifat = sifat_material(material)
+            data = {
+                "Properti": ["Konduktivitas", "Warna Material", "Sifat Katalitik", "Densitas", "Titik Leleh"],
+                "Nilai": [sifat["Konduktivitas"], sifat["Warna"], sifat["Sifat Katalitik"], sifat["Densitas"], sifat["Titik Leleh"]]
+            }
+            df = pd.DataFrame(data)
+            st.markdown(f"<h3 style='text-align: center; color: {sifat['color_code']};'>Informasi Material: {material}</h3>", unsafe_allow_html=True)
+            st.table(df)
 
 elif menu == "Identitas Pembuat":
     st.title("Identitas Pembuat")
@@ -187,3 +192,4 @@ elif menu == "Identitas Pembuat":
         4. Aulia Salwa Sahputri Malau (2350078)
         5. Muhammad Thoriq Syafaat (2350111)
     """)
+            
