@@ -46,6 +46,20 @@ def hitung_warna(panjang_gelombang):
         color_code = "#D3D3D3"
     return warna_diserap, warna_teramati, color_code
 
+# Fungsi untuk menentukan sifat magnetis berdasarkan ukuran nanopartikel (nm)
+def sifat_magnetis(ukuran_nanopartikel):
+    if ukuran_nanopartikel < 10:
+        return "Nanopartikel ini sangat magnetis (Efek Superparamagnetik)."
+    elif 10 <= ukuran_nanopartikel < 50:
+        return "Nanopartikel ini memiliki sifat magnetis sedang."
+    else:
+        return "Nanopartikel ini hampir tidak memiliki sifat magnetis."
+
+# Fungsi untuk menghitung luas permukaan berdasarkan ukuran nanopartikel (nm)
+def luas_permukaan(ukuran_nanopartikel):
+    luas = 6 / ukuran_nanopartikel
+    return f"{luas:.2f} nm²"
+
 # Fungsi untuk menampilkan sifat fisik berdasarkan material yang dipilih
 def sifat_material(material):
     material_sifat = {
@@ -90,20 +104,24 @@ def sifat_material(material):
             "color_code": "#B0C4DE"
         }
     }
-    return material_sifat.get(material, {"Konduktivitas": "Tidak diketahui", "Warna": "Tidak diketahui", "Sifat Katalitik": "Tidak diketahui", "Densitas": "Tidak diketahui", "Titik Leleh": "Tidak diketahui", "color_code": "#D3D3D3"})
-
-# Fungsi untuk menampilkan larutan dalam bentuk statis
-def gambar_larutan(color_code):
-    st.markdown(
-        f"""<div style='width:100px; height:150px; border:2px solid black; border-radius:10px; background-color: {color_code}; margin:auto'></div>""",
-        unsafe_allow_html=True
-    )
+    return material_sifat.get(material, {
+        "Konduktivitas": "Tidak diketahui", 
+        "Warna": "Tidak diketahui", 
+        "Sifat Katalitik": "Tidak diketahui", 
+        "Densitas": "Tidak diketahui", 
+        "Titik Leleh": "Tidak diketahui", 
+        "color_code": "#D3D3D3"
+    })
 
 # Tampilan aplikasi Streamlit
 st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
 
-# Sidebar
+# Sidebar dengan gambar
+image = Image.open("AKA.jpg")
+st.sidebar.image(image, use_container_width=True)
 st.sidebar.title("Navigasi")
+
+# Pilih halaman
 menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator", "Identitas Pembuat"])
 
 if menu == "Selamat Datang":
@@ -111,16 +129,16 @@ if menu == "Selamat Datang":
     st.write("""
         Aplikasi ini dirancang untuk membantu Anda menganalisis sifat fisik dari nanomaterial berdasarkan panjang gelombang, 
         ukuran nanopartikel, dan material yang dipilih.
-    
         Gunakan navigasi di sidebar untuk mengakses halaman lainnya.
-    
     """)
 
 elif menu == "Penjelasan":
     st.title("Penjelasan Aplikasi")
     st.write("""
+        Pada halaman ini, Anda akan mempelajari lebih lanjut tentang fitur dan fungsi aplikasi ini:
+
         - **Warna Larutan:** Ditentukan berdasarkan panjang gelombang cahaya tampak yang diserap oleh material.
-        - **Sifat Magnetis:** Ditentukan berdasarkan ukuran nanopartikel.
+        - **Sifat Magnetis:** Ditentukan berdasarkan ukuran nanopartikel, dengan rentang efek superparamagnetik.
         - **Luas Permukaan:** Menghitung luas permukaan nanopartikel berdasarkan ukurannya.
     """)
 
@@ -129,10 +147,13 @@ elif menu == "Kalkulator":
 
     material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
     panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
+    ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
 
     if st.button("Lihat Hasil"):
-        if panjang_gelombang > 0:
+        if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
             warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
+            sifat_magnetis_result = sifat_magnetis(ukuran_nanopartikel)
+            luas_permukaan_result = luas_permukaan(ukuran_nanopartikel)
             material_sifat = sifat_material(material)
 
             st.subheader("Hasil Sifat Fisik Nanomaterial:")
@@ -150,19 +171,34 @@ elif menu == "Kalkulator":
             df = pd.DataFrame(data)
             st.table(df)
 
+            st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
             st.write(f"**Warna Diserap**: {warna_diserap}")
             st.write(f"**Warna Teramati**: {warna_teramati}")
-            gambar_larutan(color_code_warna)
+            st.markdown(
+                f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', 
+                unsafe_allow_html=True
+            )
+            st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
+            st.write(f"**Sifat Magnetis**: {sifat_magnetis_result}")
+            st.write(f"**Luas Permukaan**: {luas_permukaan_result}")
+
+        # Menampilkan sumber informasi
+        st.markdown("""
+        ### Sumber Informasi:
+        - Data mengenai panjang gelombang dan warna yang diserap diambil dari literatur fisika optik dan teori spektroskopi.
+        - Sifat fisik nanopartikel berdasarkan penelitian material dari jurnal ilmiah dan database material.
+        - Kode warna untuk warna teramati didasarkan pada teori warna spektrum tampak dari panjang gelombang.
+        """)
 
 elif menu == "Identitas Pembuat":
     st.title("Identitas Pembuat")
     st.write("""
-    **MAHASISWA POLITEKNIK AKA BOGOR**  
-    **PROGRAM STUDI D4 NANOTEKNOLOGI PANGAN**
-
-    1. Alifa Nadia Utami (2350072)  
-    2. Nayla Haliza Rahma (2350123)  
-    3. Larissa Febriyanti (2350104)  
-    4. Aulia Salwa Sahputri Malau (2350078)  
-    5. Muhammad Thoriq Syafaat (2350111)
+        Aplikasi ini dikembangkan oleh mahasiswa Program Studi D4 Nanoteknologi Pangan Politeknik AKA Bogor.
+        
+        **Anggota Kelompok:**
+        1. Alifa Nadia Utami (2350072)
+        2. Nayla Haliza Rahma (2350123)
+        3. Larissa Febriyanti (2350104)
+        4. Aulia Salwa Sahputri Malau (2350078)
+        5. Muhammad Thoriq Syafaat (2350111)
     """)
