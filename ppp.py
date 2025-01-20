@@ -154,7 +154,7 @@ elif menu == "Penjelasan":
 elif menu == "Kalkulator":
     st.title("Kalkulator Sifat Fisik Nanomaterial")
     material = st.selectbox("Pilih Material Logam", ["Titanium", "Silver", "Gold", "Copper", "Iron"])
-    panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=1500.0, step=1.0)
+    panjang_gelombang = st.number_input("Masukkan Panjang Gelombang (nm):", min_value=100.0, max_value=800.0, step=1.0)
     ukuran_nanopartikel = st.number_input("Masukkan Ukuran Nanopartikel (nm):", min_value=1.0, max_value=1000.0, step=0.1)
 
     if st.button("Lihat Hasil"):
