@@ -37,7 +37,7 @@ def hitung_warna(panjang_gelombang):
         warna_diserap = "Oranye"
         warna_teramati = "Biru"
         color_code = "#0000FF"
-    elif 680 <= panjang_gelombang < 800:
+    elif 680 <= panjang_gelombang <= 800:
         warna_diserap = "Merah"
         warna_teramati = "Biru kehijauan"
         color_code = "#20B2AA"
