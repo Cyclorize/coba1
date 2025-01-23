@@ -126,7 +126,7 @@ st.set_page_config(page_title="Kalkulator Fisik Nanologam", layout="wide")
 # Sidebar dengan gambar
 image = Image.open("AKA.jpg")
 st.sidebar.image(image, use_container_width=True)
-st.sidebar.title("Menu")
+st.sidebar.title("Navigasi")
 
 # Halaman awal
 menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator", "Identitas Pembuat"])
@@ -164,6 +164,7 @@ elif menu == "Kalkulator":
                 f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', 
                 unsafe_allow_html=True
             )
+            # Menghilangkan informasi panjang gelombang dan ukuran nanopartikel
             st.write(f"**Warna Diserap**: {warna_diserap}")
             st.write(f"**Warna Teramati**: {warna_teramati}")
             st.write(f"**Sifat Magnetis**: {sifat_magnetis(ukuran_nanopartikel)}")
