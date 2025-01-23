@@ -126,7 +126,7 @@ st.set_page_config(page_title="Kalkulator Fisik Nanologam", layout="wide")
 # Sidebar dengan gambar
 image = Image.open("AKA.jpg")
 st.sidebar.image(image, use_container_width=True)
-st.sidebar.title("Navigasi")
+st.sidebar.title("Menu")
 
 # Halaman awal
 menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalkulator", "Identitas Pembuat"])
