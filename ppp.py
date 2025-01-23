@@ -121,7 +121,7 @@ def animasi_berjalan(text, delay=0.1):
         time.sleep(delay)
 
 # Tampilan aplikasi Streamlit
-st.set_page_config(page_title="Kalkulator Sifat Fisik Nanomaterial", layout="wide")
+st.set_page_config(page_title="Kalkulator Fisik Nanologam", layout="wide")
 
 # Sidebar dengan gambar
 image = Image.open("AKA.jpg")
@@ -133,7 +133,7 @@ menu = st.sidebar.radio("Pilih Halaman", ["Selamat Datang", "Penjelasan", "Kalku
 
 if menu == "Selamat Datang":
     st.markdown(
-        "<h1 style='text-align: center; color: #4B0082;'>Selamat Datang di Kalkulator Sifat Fisik Nanomaterial</h1>", 
+        "<h1 style='text-align: center; color: #4B0082;'>Selamat Datang di Kalkulator Fisik Nanologam</h1>", 
         unsafe_allow_html=True
     )
     st.markdown(
@@ -164,10 +164,8 @@ elif menu == "Kalkulator":
                 f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', 
                 unsafe_allow_html=True
             )
-            st.write(f"**Panjang Gelombang**: {panjang_gelombang} nm")
             st.write(f"**Warna Diserap**: {warna_diserap}")
             st.write(f"**Warna Teramati**: {warna_teramati}")
-            st.write(f"**Ukuran Nanopartikel**: {ukuran_nanopartikel} nm")
             st.write(f"**Sifat Magnetis**: {sifat_magnetis(ukuran_nanopartikel)}")
             st.write(f"**Luas Permukaan**: {luas_permukaan(ukuran_nanopartikel)}")
 
@@ -192,4 +190,3 @@ elif menu == "Identitas Pembuat":
         4. Aulia Salwa Sahputri Malau (2350078)
         5. Muhammad Thoriq Syafaat (2350111)
     """)
-            
