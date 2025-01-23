@@ -121,7 +121,7 @@ def animasi_berjalan(text, delay=0.1):
         time.sleep(delay)
 
 # Tampilan aplikasi Streamlit
-st.set_page_config(page_title="Kalkulator Fisik Nanologam", layout="wide")
+st.set_page_config(page_title="Sifat Fisik Nanologam", layout="wide")
 
 # Sidebar dengan gambar
 image = Image.open("AKA.jpg")
@@ -159,12 +159,13 @@ elif menu == "Kalkulator":
 
     if st.button("Lihat Hasil"):
         if panjang_gelombang > 0 and ukuran_nanopartikel > 0:
+            # Menghitung warna dan sifat lainnya
             warna_diserap, warna_teramati, color_code_warna = hitung_warna(panjang_gelombang)
+            # Menampilkan warna teramati tanpa informasi panjang gelombang atau ukuran nanopartikel
             st.markdown(
                 f'<div style="background-color:{color_code_warna}; padding: 20px; color:white; text-align:center; font-size:24px; font-weight:bold;">{warna_teramati}</div>', 
                 unsafe_allow_html=True
             )
-            # Menghilangkan informasi panjang gelombang dan ukuran nanopartikel
             st.write(f"**Warna Diserap**: {warna_diserap}")
             st.write(f"**Warna Teramati**: {warna_teramati}")
             st.write(f"**Sifat Magnetis**: {sifat_magnetis(ukuran_nanopartikel)}")
